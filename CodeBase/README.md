@@ -4,4 +4,4 @@
 Dependencies
 
 -- pip install pynput pandas numpy
-Run by - python data_capture.py
+--Run by - python data_capture.py
