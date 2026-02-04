@@ -1,1 +1,7 @@
-# AFFECT-CODE Project - Code will be uploaded here as development progresses.
+# AFFECT-CODE 
+
+## Data Capture :
+Dependencies
+
+-- pip install pynput pandas numpy
+Run by - python data_capture.py
