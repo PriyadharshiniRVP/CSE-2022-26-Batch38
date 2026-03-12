@@ -1,69 +1,64 @@
 import tkinter as tk
-from tkinter import messagebox
+from ai_assistant import ask_ai
 
-def show_cute_popup():
+
+def show_cute_popup(initial_message):
 
     root = tk.Tk()
-    root.title("DevBuddy 💛")
+    root.title("CodeBuddy 🤖")
+    root.geometry("500x400")
+    root.configure(bg="#f0f8ff")
 
-    root.geometry("350x300")
-    root.configure(bg="#FFF6F2")
-
-    tk.Label(
+    title = tk.Label(
         root,
-        text="Hey… you seem a little stressed 🌸",
-        bg="#FFF6F2",
-        fg="#444",
-        font=("Segoe UI", 12)
-    ).pack(pady=10)
-
-    tk.Label(
-        root,
-        text="Let's slow down together 💛",
-        bg="#FFF6F2",
-        fg="#FF7A8A",
-        font=("Segoe UI", 11)
-    ).pack()
-
-    def breathing():
-        messagebox.showinfo(
-            "Breathing Time 🌿",
-            "Inhale... 1 2 3 4\nHold... 1 2 3 4\nExhale... 1 2 3 4\n\nYou're doing great 💛"
-        )
-
-    tk.Button(
-        root,
-        text="20-sec Breathing Pause 🌿",
-        bg="#FFDCDC",
-        command=breathing
-    ).pack(pady=10)
-
-    score = 0
-
-    def bug_smasher():
-        nonlocal score
-        score += 1
-        bug_label.config(text=f"🐞 Bugs Smashed: {score}")
-
-    tk.Button(
-        root,
-        text="Smash a Bug 🐞",
-        bg="#FFC4C4",
-        command=bug_smasher
-    ).pack(pady=5)
-
-    bug_label = tk.Label(
-        root,
-        text="🐞 Bugs Smashed: 0",
-        bg="#FFF6F2"
+        text="🤖 CodeBuddy - Debug Assistant",
+        font=("Arial", 14, "bold"),
+        bg="#f0f8ff"
     )
-    bug_label.pack()
+    title.pack(pady=5)
 
-    tk.Button(
+    # Chat display
+    chat_box = tk.Text(root, height=15, width=60, wrap="word")
+    chat_box.pack(pady=5)
+
+    chat_box.insert(tk.END, "CodeBuddy:\n" + initial_message + "\n\n")
+    chat_box.config(state="disabled")
+
+    # User input
+    user_input = tk.Entry(root, width=50)
+    user_input.pack(pady=5)
+
+    def send_message():
+
+        question = user_input.get()
+
+        if question.strip() == "":
+            return
+
+        chat_box.config(state="normal")
+        chat_box.insert(tk.END, "You: " + question + "\n")
+
+        # Ask AI
+        response = ask_ai(question)
+
+        chat_box.insert(tk.END, "CodeBuddy: " + response + "\n\n")
+        chat_box.config(state="disabled")
+
+        user_input.delete(0, tk.END)
+
+    send_button = tk.Button(
         root,
-        text="I'm Okay Now 💛",
-        bg="#FFB6B9",
+        text="Ask CodeBuddy",
+        command=send_message,
+        bg="#87CEFA"
+    )
+    send_button.pack(pady=5)
+
+    close_button = tk.Button(
+        root,
+        text="Close",
         command=root.destroy
-    ).pack(pady=15)
+    )
+    close_button.pack(pady=5)
 
     root.mainloop()

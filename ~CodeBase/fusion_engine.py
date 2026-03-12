@@ -1,8 +1,11 @@
 import time
+from ai_assistant import debugging_assistant
+from cute_popup import show_cute_popup
 
 
 class FusionEngine:
     def __init__(self, keystroke_logger, facial_logger, stop_event):
+
         self.W_KEY = 0.65
         self.W_FACE = 0.35
         self.THRESHOLD = 0.6
@@ -11,10 +14,16 @@ class FusionEngine:
         self.face_logger = facial_logger
         self.stop_event = stop_event
 
+        # cooldown timer for AI assistant
+        self.last_ai_time = 0
+        self.ai_cooldown = 60
+
     def start(self):
+
         print("🟢 Fusion Engine Running\n")
 
         while not self.stop_event.is_set():
+
             P_key = self.key_logger.get_probability()
             P_face = self.face_logger.get_probability()
 
@@ -29,5 +38,18 @@ class FusionEngine:
                 "P_total": round(P_total, 3),
                 "frustrated": frustrated
             })
+
+            # trigger AI only if cooldown passed
+            if frustrated and time.time() - self.last_ai_time > self.ai_cooldown:
+
+                print("⚠️ Frustration detected!")
+
+                suggestion = debugging_assistant(
+                    "The developer might be stuck while coding. Give a short debugging tip."
+                )
+
+                show_cute_popup(suggestion)
+
+                self.last_ai_time = time.time()
 
             time.sleep(1)
