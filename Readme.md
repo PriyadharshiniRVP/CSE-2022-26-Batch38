@@ -27,7 +27,7 @@ The system:
 
 ---
 
-## 🧩 Project Phases
+##  Project Phases
 
 ###  Data Collection
 - Keystroke logging
@@ -114,5 +114,6 @@ The system:
 To build emotionally intelligent development environments that support productivity, well-being, and team collaboration.
 
 ---
+
 
 Built to make coding smarter, healthier, and more human.
