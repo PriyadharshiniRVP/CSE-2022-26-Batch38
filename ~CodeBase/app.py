@@ -1,43 +1,70 @@
+import warnings
+warnings.filterwarnings("ignore")
+
 import threading
 import time
-from cute_popup import show_cute_popup
-from pynput import keyboard
+import subprocess
+import requests
+
 from facial_logger import FacialLogger
 from keystroke_logger import KeystrokeLogger
 from fusion_engine import FusionEngine
 
 
+def start_ollama():
+
+    try:
+        requests.get("http://localhost:11434")
+        print("🟢 Ollama already running")
+    except:
+        print("🚀 Starting Ollama...")
+        subprocess.Popen(["ollama", "serve"])
+        time.sleep(5)
+
+
 def main():
+
+    print("🚀 Starting system...")
+
+    start_ollama()
+
     stop_event = threading.Event()
 
-    facial = FacialLogger(stop_event)
-    keystroke = KeystrokeLogger(stop_event)
-    fusion = FusionEngine(keystroke, facial, stop_event)
+    facial_logger = FacialLogger(stop_event)
+    keystroke_logger = KeystrokeLogger(stop_event)
 
-    t1 = threading.Thread(target=facial.start)
-    t2 = threading.Thread(target=keystroke.start)
-    t3 = threading.Thread(target=fusion.start)
+    fusion_engine = FusionEngine(
+        keystroke_logger,
+        facial_logger,
+        stop_event
+    )
 
-    t1.start()
-    t2.start()
-    t3.start()
+    face_thread = threading.Thread(target=facial_logger.start)
+    key_thread = threading.Thread(target=keystroke_logger.start)
+    fusion_thread = threading.Thread(target=fusion_engine.start)
 
-    print("\nPress ESC to stop entire monitoring...\n")
+    face_thread.start()
+    key_thread.start()
+    fusion_thread.start()
 
-    def on_press(key):
-        if key == keyboard.Key.esc:
-            print("\n🛑 Stopping entire system...")
-            stop_event.set()
-            return False
+    print("🟢 Facial Emotion Monitoring Started")
+    print("🔵 Keystroke Monitoring Started")
 
-    with keyboard.Listener(on_press=on_press) as listener:
-        listener.join()
+    try:
+        while True:
+            time.sleep(1)
 
-    t1.join()
-    t2.join()
-    t3.join()
+    except KeyboardInterrupt:
 
-    print("✅ System stopped cleanly.")
+        print("\n🛑 Stopping entire system...")
+
+        stop_event.set()
+
+        face_thread.join()
+        key_thread.join()
+        fusion_thread.join()
+
+        print("✅ System stopped cleanly.")
 
 
 if __name__ == "__main__":

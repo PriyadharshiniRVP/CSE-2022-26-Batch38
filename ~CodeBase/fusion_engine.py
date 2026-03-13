@@ -1,6 +1,12 @@
 import time
+import threading
+import logging
+
 from ai_assistant import debugging_assistant
 from cute_popup import show_cute_popup
+
+# suppress LightGBM warnings
+logging.getLogger("lightgbm").setLevel(logging.CRITICAL)
 
 
 class FusionEngine:
@@ -39,7 +45,6 @@ class FusionEngine:
                 "frustrated": frustrated
             })
 
-            # trigger AI only if cooldown passed
             if frustrated and time.time() - self.last_ai_time > self.ai_cooldown:
 
                 print("⚠️ Frustration detected!")
@@ -48,7 +53,12 @@ class FusionEngine:
                     "The developer might be stuck while coding. Give a short debugging tip."
                 )
 
-                show_cute_popup(suggestion)
+                # run popup in separate thread so system doesn't block
+                threading.Thread(
+                    target=show_cute_popup,
+                    args=(suggestion,),
+                    daemon=True
+                ).start()
 
                 self.last_ai_time = time.time()
 

@@ -5,16 +5,22 @@ OLLAMA_URL = "http://localhost:11434/api/generate"
 
 def ask_ai(prompt):
 
-    response = requests.post(
-        OLLAMA_URL,
-        json={
-            "model": "phi3",
-            "prompt": prompt,
-            "stream": False
-        }
-    )
+    try:
+        response = requests.post(
+            OLLAMA_URL,
+            json={
+                "model": "codellama",
+                "prompt": prompt,
+                "stream": False
+            },
+            timeout=60
+        )
 
-    return response.json()["response"]
+        return response.json()["response"]
+
+    except Exception as e:
+        print("⚠️ AI Assistant unavailable:", e)
+        return "Take a deep breath. Try isolating the bug step-by-step. You've got this."
 
 
 def debugging_assistant(problem):
