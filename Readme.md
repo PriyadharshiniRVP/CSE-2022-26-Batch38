@@ -73,7 +73,6 @@ The system:
 
 ### Computer Vision
 - OpenCV
-- MediaPipe
 
 ### Frontend / Integration
 - JavaScript (IDE Extension)
