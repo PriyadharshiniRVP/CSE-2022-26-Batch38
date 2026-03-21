@@ -2,8 +2,10 @@ import time
 import threading
 import logging
 
-from ai_assistant import debugging_assistant
+from nova_assistant import ask_ai
+
 from cute_popup import show_cute_popup
+
 
 # suppress LightGBM warnings
 logging.getLogger("lightgbm").setLevel(logging.CRITICAL)
@@ -26,7 +28,7 @@ class FusionEngine:
 
     def start(self):
 
-        print("🟢 Fusion Engine Running\n")
+        print("Fusion Engine Running\n")
 
         while not self.stop_event.is_set():
 
@@ -47,11 +49,11 @@ class FusionEngine:
 
             if frustrated and time.time() - self.last_ai_time > self.ai_cooldown:
 
-                print("⚠️ Frustration detected!")
+                print(" Frustration detected!")
 
-                suggestion = debugging_assistant(
-                    "The developer might be stuck while coding. Give a short debugging tip."
-                )
+                suggestion = ask_ai(
+    "A developer might be stuck while coding. Give a short helpful debugging tip."
+)
 
                 # run popup in separate thread so system doesn't block
                 threading.Thread(

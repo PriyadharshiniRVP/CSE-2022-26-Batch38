@@ -3,33 +3,19 @@ warnings.filterwarnings("ignore")
 
 import threading
 import time
-import subprocess
-import requests
 
 from facial_logger import FacialLogger
 from keystroke_logger import KeystrokeLogger
 from fusion_engine import FusionEngine
 
 
-def start_ollama():
-
-    try:
-        requests.get("http://localhost:11434")
-        print("🟢 Ollama already running")
-    except:
-        print("🚀 Starting Ollama...")
-        subprocess.Popen(["ollama", "serve"])
-        time.sleep(5)
-
-
 def main():
 
-    print("🚀 Starting system...")
-
-    start_ollama()
+    print(" Starting Frustration Detection System...")
 
     stop_event = threading.Event()
 
+    # Initialize modules
     facial_logger = FacialLogger(stop_event)
     keystroke_logger = KeystrokeLogger(stop_event)
 
@@ -39,6 +25,7 @@ def main():
         stop_event
     )
 
+    # Threads
     face_thread = threading.Thread(target=facial_logger.start)
     key_thread = threading.Thread(target=keystroke_logger.start)
     fusion_thread = threading.Thread(target=fusion_engine.start)
@@ -47,8 +34,9 @@ def main():
     key_thread.start()
     fusion_thread.start()
 
-    print("🟢 Facial Emotion Monitoring Started")
-    print("🔵 Keystroke Monitoring Started")
+    print(" Facial Emotion Monitoring Started")
+    print(" Keystroke Monitoring Started")
+    print(" Fusion Engine Running")
 
     try:
         while True:
@@ -56,7 +44,7 @@ def main():
 
     except KeyboardInterrupt:
 
-        print("\n🛑 Stopping entire system...")
+        print("\n Stopping entire system...")
 
         stop_event.set()
 
@@ -64,7 +52,7 @@ def main():
         key_thread.join()
         fusion_thread.join()
 
-        print("✅ System stopped cleanly.")
+        print(" System stopped cleanly.")
 
 
 if __name__ == "__main__":
