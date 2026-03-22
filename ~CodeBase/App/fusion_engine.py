@@ -1,5 +1,6 @@
 import time
 import threading
+import requests
 import logging
 
 from nova_assistant import ask_ai
@@ -39,6 +40,11 @@ class FusionEngine:
             P_total = max(0.0, min(1.0, P_total))
 
             frustrated = P_total >= self.THRESHOLD
+            try:
+                requests.post('http://localhost:5000/api/status/update', 
+                            json={"frustration_score": P_total, "frustrated": frustrated})
+            except:
+                pass
 
             print({
                 "P_keystroke": round(P_key, 3),
