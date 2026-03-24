@@ -3,11 +3,14 @@ import numpy as np
 import glob
 import matplotlib.pyplot as plt
 import joblib
+import os
 
 from lightgbm import LGBMClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+data_path = os.path.join(BASE_DIR, "Data", "session_*.csv")
 
 # =====================================
 # SETTINGS
@@ -18,7 +21,7 @@ MAX_INTERVAL = 10
 # =====================================
 # 1. LOAD ALL SESSION FILES
 # =====================================
-files = glob.glob("session_*.csv")
+files = glob.glob(data_path)
 
 data_rows = []
 
