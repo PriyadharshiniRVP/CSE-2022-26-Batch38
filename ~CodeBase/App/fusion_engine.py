@@ -138,21 +138,21 @@ class FusionEngine:
         metrics = self.calculate_metrics()
         
         print("\n" + "="*60)
-        print("📊 SESSION METRICS SUMMARY")
+        print("SESSION METRICS SUMMARY")
         print("="*60)
-        print(f"⏱️  Session Duration: {metrics['session_duration_minutes']} minutes")
-        print(f"📈 Total Predictions: {metrics['total_predictions']}")
-        print(f"😤 Frustration Rate: {metrics['frustration_rate']}%")
-        print(f"⏰ Total Frustration Time: {metrics['total_frustration_time_seconds']} seconds")
-        print(f"📊 Frustration Percentage: {metrics['frustration_percentage']}%")
-        print(f"🔄 Frustration Episodes: {metrics['frustration_episodes']}")
-        print(f"⏱️  Avg Episode Duration: {metrics['avg_episode_duration_seconds']} seconds")
-        print(f"🆘 Interventions Triggered: {metrics['interventions_triggered']}")
-        print(f"📞 Interventions/Hour: {metrics['interventions_per_hour']}")
-        print(f"🎯 Avg Frustration Score: {metrics['avg_P_total']}")
-        print(f"📈 Max Frustration Score: {metrics['max_P_total']}")
-        print(f"📉 Min Frustration Score: {metrics['min_P_total']}")
-        print(f"✨ Session Points Earned: {metrics['session_points_earned']}")
+        print(f" Session Duration: {metrics['session_duration_minutes']} minutes")
+        print(f"Total Predictions: {metrics['total_predictions']}")
+        print(f" Frustration Rate: {metrics['frustration_rate']}%")
+        print(f" Total Frustration Time: {metrics['total_frustration_time_seconds']} seconds")
+        print(f"Frustration Percentage: {metrics['frustration_percentage']}%")
+        print(f" Frustration Episodes: {metrics['frustration_episodes']}")
+        print(f" Avg Episode Duration: {metrics['avg_episode_duration_seconds']} seconds")
+        print(f"Interventions Triggered: {metrics['interventions_triggered']}")
+        print(f" Interventions/Hour: {metrics['interventions_per_hour']}")
+        print(f" Avg Frustration Score: {metrics['avg_P_total']}")
+        print(f"Max Frustration Score: {metrics['max_P_total']}")
+        print(f" Min Frustration Score: {metrics['min_P_total']}")
+        print(f" Session Points Earned: {metrics['session_points_earned']}")
         print("="*60)
         
         # Save summary to file
@@ -170,7 +170,7 @@ class FusionEngine:
             for key, value in metrics.items():
                 f.write(f"{key}: {value}\n")
         
-        print(f"\n💾 Metrics summary saved to: {summary_file}")
+        print(f"\n Metrics summary saved to: {summary_file}")
 
     def get_realtime_stats(self):
         """Get real-time statistics for display"""
@@ -199,8 +199,8 @@ class FusionEngine:
     def start(self):
         print("Fusion Engine Running\n")
         print("="*60)
-        print("📊 Metrics Collection Active")
-        print(f"📁 Metrics will be saved to: {self.metrics_file}")
+        print(" Metrics Collection Active")
+        print(f"Metrics will be saved to: {self.metrics_file}")
         print("="*60 + "\n")
 
         while not self.stop_event.is_set():
@@ -242,7 +242,7 @@ class FusionEngine:
 
             if frustrated and intervention_triggered:
                 print("\n" + "="*50)
-                print("🔴 FRUSTRATION DETECTED! Launching Support System...")
+                print("FRUSTRATION DETECTED! Launching Support System...")
                 print(f"   Current Streak: {realtime['current_streak']}")
                 print(f"   Recent Frustration: {realtime['recent_frustration_rate']:.0f}%")
                 print("="*50 + "\n")
@@ -268,15 +268,15 @@ class FusionEngine:
         # 2. Launch Bug Smasher Game
         def on_game_end(results):
             """Callback when game finishes"""
-            print(f"\n📊 Game Results:")
+            print(f"\n Game Results:")
             print(f"   - Bugs smashed: {results['bugs_smashed']}")
             print(f"   - Focus energy: {results['focus_energy']}%")
             print(f"   - Score: {results['score']}")
             
             # Add focus energy to session points
             self.session_points += results['focus_energy']
-            print(f"✨ Added {results['focus_energy']} focus points to session!")
-            print(f"💰 Total session points: {self.session_points}\n")
+            print(f"Added {results['focus_energy']} focus points to session!")
+            print(f" Total session points: {self.session_points}\n")
         
         # Launch game in separate thread
         game_thread = threading.Thread(
@@ -285,7 +285,7 @@ class FusionEngine:
             daemon=True
         )
         game_thread.start()
-        print("✅ Support system launched! (AI Assistant + Game)")
+        print("Support system launched! (AI Assistant + Game)")
 
     def get_session_summary(self):
         """Public method to get session summary"""

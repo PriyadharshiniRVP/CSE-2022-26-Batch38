@@ -15,7 +15,7 @@ class FacialLogger:
         self.face_prob = 0.0
 
     def start(self):
-        print("🟢 Facial Emotion Monitoring Started")
+        print(" Facial Emotion Monitoring Started")
 
         while not self.stop_event.is_set():
             ret, frame = self.cap.read()
